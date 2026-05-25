@@ -3,7 +3,7 @@ import requests
 
 # regex patterns for external_messages (phone numbers, emails, urls, car number plates)
 phone_pattern = re.compile(
-    r"(?<!\d)(?:\+7|8)\s*\(?\d{3}\)?[\s\-]*\d{3}[\s\-]*\d{2}[\s\-]*\d{2}(?!\d)|(?<!\d)\d{10}(?!\d)",
+    r"(?<!\d)(?:\+7|8)\s*\(?\d{3}\)?[\s\-]*\d{3}[\s\-]*\d{2}[\s\-]*\d{2}(?!\d)|(?<!\d)\d{11}(?!\d)",
     re.IGNORECASE,
 )
 card_pattern = re.compile(r"(?<!\d)(?:\d{4}[\s\-]?){3}\d{4}(?!\d)", re.IGNORECASE)
@@ -40,10 +40,6 @@ harrassment_set = set(
     ]
 )
 
-# regex pattern for spam (advertisements, scams)
-#
-#
-#
 
 def contains_spam(text: str) -> bool:
     return any(
