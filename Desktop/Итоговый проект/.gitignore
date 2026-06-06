@@ -1,0 +1,19 @@
+# Data files (large, not versioned)
+*.csv
+*.tsv
+*.parquet
+*.feather
+data/
+
+# Models and checkpoints
+*.pt
+*.pth
+*.ckpt
+*.pkl
+*.joblib
+models/
+checkpoints/
+
+# Outputs
+*.png
+eda_report.png
