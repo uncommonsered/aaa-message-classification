@@ -127,13 +127,13 @@ def split(df: pd.DataFrame,
           random_state: int = 42) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """
     Стратифицированная разбивка.
-    Правило: val и test содержат ТОЛЬКО реальные примеры (no synthetic).
-    Синтетические данные остаются только в train.
+    Правило: val и test содержат ТОЛЬКО оригинальные Авито-примеры (source=='real').
+    Все остальные источники (synthetic, alexsham, paradetox, ...) — только в train.
 
     Returns: train, val, test
     """
-    real = df[df["source"] == "real"].copy()
-    synthetic = df[df["source"] == "synthetic"].copy()
+    real      = df[df["source"] == "real"].copy()
+    train_only = df[df["source"] != "real"].copy()   # synthetic + все внешние источники
 
     # Стратифицируем real по классам
     val_parts, test_parts, train_parts = [], [], []
@@ -144,13 +144,12 @@ def split(df: pd.DataFrame,
 
         n_val  = max(1, int(n * val_size))
         n_test = max(1, int(n * test_size))
-        n_train = n - n_val - n_test
 
         val_parts.append(cls_df.iloc[:n_val])
         test_parts.append(cls_df.iloc[n_val:n_val + n_test])
         train_parts.append(cls_df.iloc[n_val + n_test:])
 
-    train = pd.concat(train_parts + [synthetic], ignore_index=True)
+    train = pd.concat(train_parts + [train_only], ignore_index=True)
     val   = pd.concat(val_parts,  ignore_index=True)
     test  = pd.concat(test_parts, ignore_index=True)
 
