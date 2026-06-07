@@ -1,19 +1,26 @@
 import requests
 from dotenv import load_dotenv
 import os
-from gigachat import GigaChat
 
 
 load_dotenv()
 
-KEY = os.getenv("AUTHORIZATION_KEY_SBER")
-giga = GigaChat(credentials=KEY)
 
-TOKEN = giga.get_token().access_token
+def token():
+    url = "https://ngw.devices.sberbank.ru:9443/api/v2/oauth"
+    payload = {"scope": "GIGACHAT_API_PERS"}
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Accept": "application/json",
+        "RqUID": "d3fe0f0c-3416-4d58-9330-ce28e3c04dc6",
+        "Authorization": f"Basic {os.getenv('AUTHORIZATION_KEY_SBER')}",
+    }
+    response = requests.request("POST", url, headers=headers, data=payload)
+    TOKEN = response.json()["access_token"]
+    return TOKEN
 
-SYSTEM_PROMPT_SPAM = """Ты аугментируешь сообщения для датасета модерации.
 
-Для каждого сообщения:
+SYSTEM_PROMPT_SPAM = """Ты аугментируешь сообщения для датасета модерации. Для каждого сообщения:
 - слегка осовремень текст
 - сохрани написание слов с опечатками или намеренными искажением
 - добавить Telegram/WhatsApp или @username, t.me
@@ -69,9 +76,10 @@ url = "https://gigachat.devices.sberbank.ru/api/v1/chat/completions"
 
 
 def update_spam_messages(messages: list[str]) -> list[str]:
+    TOKEN = token()
 
     payload = {
-        "model": "GigaChat-2",
+        "model": "GigaChat-Max-preview",
         "messages": [
             {"role": "system", "content": SYSTEM_PROMPT_SPAM},
             {"role": "user", "content": "\n".join(messages)},
@@ -92,9 +100,10 @@ def update_spam_messages(messages: list[str]) -> list[str]:
 
 
 def update_external_messages(messages: list[str]) -> list[str]:
+    TOKEN = token()
 
     payload = {
-        "model": "GigaChat-2",
+        "model": "GigaChat-Max-preview",
         "messages": [
             {"role": "system", "content": SYSTEM_PROMPT_EXTERNAL_MESSAGES},
             {"role": "user", "content": ";".join(messages)},
@@ -115,9 +124,10 @@ def update_external_messages(messages: list[str]) -> list[str]:
 
 
 def estimate_harassment_and_threat(messages: list[str]) -> list[int]:
+    TOKEN = token()
 
     payload = {
-        "model": "GigaChat-2",
+        "model": "GigaChat-Max-preview",
         "messages": [
             {"role": "system", "content": SYSTEM_PROMPT_HARASSMENT_AND_THREAT},
             {"role": "user", "content": ";".join(messages)},
@@ -135,9 +145,9 @@ def estimate_harassment_and_threat(messages: list[str]) -> list[int]:
     response = requests.post(url, headers=headers, json=payload)
     try:
         return [
-            int(x) 
+            int(x)
             for x in response.json()["choices"][0]["message"]["content"].split(";")
         ]
     except ValueError:
-        # для батча 2 возвращаем минимальные скоры, если модель не захотела генерировать ответ.
-        return [1, 1]
+        # для батча 5 возвращаем минимальные скоры, если модель не захотела генерировать ответ.
+        return [1, 1, 1, 1, 1]
