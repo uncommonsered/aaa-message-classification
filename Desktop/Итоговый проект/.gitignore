@@ -16,4 +16,8 @@ checkpoints/
 
 # Outputs
 *.png
-eda_report.png
+
+# macOS
+.DS_Store
+.ipynb_checkpoints/
+__pycache__/

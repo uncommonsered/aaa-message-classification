@@ -83,7 +83,7 @@ PERSONAL_THREAT_RE = re.compile(
 def load_classifier():
     """Загружает zero-shot pipeline. Модель кэшируется HuggingFace."""
     from transformers import pipeline
-    print(f"⏳ Загрузка модели {MODEL_NAME}...")
+    print(f"Загрузка модели {MODEL_NAME}...")
     print("   (первый запуск: скачивается ~1.2GB, далее — из кэша)")
     clf = pipeline(
         "zero-shot-classification",
@@ -91,7 +91,7 @@ def load_classifier():
         hypothesis_template=HYPOTHESIS_TEMPLATE,
         multi_label=False,
     )
-    print("✅ Модель загружена!")
+    print("Модель загружена.")
     return clf
 
 
@@ -152,20 +152,20 @@ def run_labeling(
         todo_mask = df["llm_label"].isna()
         n_done = (~todo_mask).sum()
         n_todo = todo_mask.sum()
-        print(f"\n📋 Всего: {len(df)} | Уже размечено: {n_done} | Осталось: {n_todo}")
+        print(f"\nВсего: {len(df)} | Уже размечено: {n_done} | Осталось: {n_todo}")
     else:
         df["llm_label"] = None
         df["llm_confidence"] = None
         todo_mask = pd.Series([True] * len(df), index=df.index)
-        print(f"\n📋 Запускаем с нуля: {len(df)} строк")
+        print(f"\nЗапускаем с нуля: {len(df)} строк")
 
     todo_indices = df.index[todo_mask].tolist()
 
     if not todo_indices:
-        print("✅ Все строки уже размечены!")
+        print("Все строки уже размечены.")
         return df
 
-    print(f"\n🚀 Начинаем zero-shot классификацию {len(todo_indices)} текстов...")
+    print(f"\nНачинаем zero-shot классификацию {len(todo_indices)} текстов...")
     print(f"   Модель: {MODEL_NAME}")
     print(f"   Порог для threat: {THREAT_THRESHOLD}")
     print("=" * 60)
@@ -190,7 +190,7 @@ def run_labeling(
                 n_threat += 1
                 if verbose:
                     text_preview = df.at[idx, "text"][:70]
-                    print(f"  🔴 THREAT [{score:.2f}]: {text_preview}...")
+                    print(f"  THREAT [{score:.2f}]: {text_preview}...")
 
         n_harassment = batch_start + len(batch_indices) - n_threat
 
@@ -206,7 +206,7 @@ def run_labeling(
         # Сохранение прогресса
         if processed % SAVE_EVERY == 0 or processed == len(todo_indices):
             df.to_csv(output_path, index=False)
-            print(f"  💾 Сохранено ({processed}/{len(todo_indices)})")
+            print(f"  Сохранено ({processed}/{len(todo_indices)})")
 
     # Финальное сохранение
     df.to_csv(output_path, index=False)
@@ -214,7 +214,7 @@ def run_labeling(
     elapsed_total = time.time() - start_time
     total_labeled = len(todo_indices)
     print("\n" + "=" * 60)
-    print(f"✅ РАЗМЕТКА ЗАВЕРШЕНА за {elapsed_total:.0f}с")
+    print(f"Разметка завершена за {elapsed_total:.0f}с")
     print(f"   threat:     {n_threat:4d} ({n_threat/total_labeled*100:.1f}%)")
     print(f"   harassment: {total_labeled-n_threat:4d} ({(total_labeled-n_threat)/total_labeled*100:.1f}%)")
     print(f"   Сохранено:  {output_path}")
@@ -260,11 +260,11 @@ def build_threat_upgrade_df(
 
     result = threats[["text", "label", "source", "synthetic"]].reset_index(drop=True)
 
-    print(f"📊 LLM предсказал угрозу: {(df['llm_label']=='threat').sum()} / {len(df)}")
+    print(f"LLM предсказал угрозу: {(df['llm_label']=='threat').sum()} / {len(df)}")
     print(f"   После порога {min_confidence:.2f}: {n_after_llm}")
     if require_personal:
         print(f"   После regex-фильтра (личная угроза): {len(result)}")
-    print(f"✅ Новых угроз для обучения: {len(result)}")
+    print(f"Новых угроз для обучения: {len(result)}")
     return result
 
 
