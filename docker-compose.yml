@@ -1,0 +1,9 @@
+services:
+  fastapi_backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bert_fastapi
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
