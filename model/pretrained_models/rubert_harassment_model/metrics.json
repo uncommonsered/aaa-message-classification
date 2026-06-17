@@ -1,0 +1,56 @@
+{
+  "final_stage": "S3_light_runtime_tfidf_plus_conditional_rubert",
+  "thresholds": {
+    "threat": 0.3090909090909091,
+    "external": 0.6292436974789917,
+    "harassment_ft": 0.9
+  },
+  "metrics": {
+    "external_precision": 0.9502868068833652,
+    "external_recall": 0.8738461538461538,
+    "external_f1": 0.9104648500114495,
+    "external_support": 2275.0,
+    "harassment_precision": 0.975,
+    "harassment_recall": 0.8125,
+    "harassment_f1": 0.8863636363636362,
+    "harassment_support": 48.0,
+    "normal_precision": 0.9627958038545987,
+    "normal_recall": 0.9868717179294824,
+    "normal_f1": 0.9746851074339343,
+    "normal_support": 7998.0,
+    "threat_precision": 0.9555555555555556,
+    "threat_recall": 0.8686868686868687,
+    "threat_f1": 0.9100529100529101,
+    "threat_support": 99.0,
+    "macro_precision": 0.9609095415733799,
+    "macro_recall": 0.8854761851156263,
+    "macro_f1": 0.9203916259654825,
+    "weighted_f1": 0.9596429669552157,
+    "accuracy": 0.9602687140115164
+  },
+  "latency": {
+    "mean_ms": 1.6177093560478717,
+    "p50_ms": 1.370645986753516,
+    "p98_ms": 2.748170485720034,
+    "p99_ms": 3.764499020180664,
+    "max_ms": 80.70016698911786,
+    "n": 10420
+  },
+  "gates": {
+    "precision_all_ge_0_95": true,
+    "recall_all_ge_0_80": true,
+    "f1_all_ge_0_80": true,
+    "latency_p98_le_80ms": true
+  },
+  "data": {
+    "train_rows": 19594,
+    "val_rows": 10420,
+    "val_balance": {
+      "normal": 7998,
+      "external": 2275,
+      "threat": 99,
+      "harassment": 48
+    },
+    "leak_assert": "passed"
+  }
+}
