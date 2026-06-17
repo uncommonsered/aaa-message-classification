@@ -51,9 +51,7 @@ curl http://localhost:8080/health
 Должен вернуться ответ:
 ```bash
 {
-        "status": "ok",
-        "bert_loaded": True,
-        "logreg_loaded": True
+        "status": "ok"
 }
 ```
 
