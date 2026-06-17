@@ -7,27 +7,27 @@
 ## Структура репозитория 
 
 .
-├── data/
-│   ├── custom_augmentations.py
-│   ├── data_labeling.ipynb
-│   ├── llm_tools.py
-│   └── regex_for_labeling.py
-├── model/
-│   ├── pretrained_models/
-│       ├── bert_tiny_ens/
-│       ├── logreg_pipeline.pkl
-│   └── train_model.ipynb
-├── server/
-│   ├── main.py
-│   └── requirements.txt
-├── .gitignore
-├── Dockerfile
-├── README.md
-├── docker-compose.yml
-├── metrics_and_expected_solution
-├── metrics_test.ipynb
-├── models_and_evaluation.md
-└── project_overview.md
+├── data/ \
+│   ├── custom_augmentations.py \
+│   ├── data_labeling.ipynb \
+│   ├── llm_tools.py \
+│   └── regex_for_labeling.py \
+├── model/ \
+│   ├── pretrained_models/ \ 
+│       ├── bert_tiny_ens/ \ 
+│       ├── logreg_pipeline.pkl \
+│   └── train_model.ipynb \
+├── server/ \
+│   ├── main.py \
+│   └── requirements.txt \
+├── .gitignore \
+├── Dockerfile \
+├── README.md \
+├── docker-compose.yml \
+├── metrics_and_expected_solution \
+├── metrics_test.ipynb \
+├── models_and_evaluation.md \
+└── project_overview.md \
 
 Папка `data` содержит ноутбук с предразметкой сообщений и аугментацию. В файлы `.ру` вынесена часть кода с функциями для разметки\аугментации\фильтрации
 Папка `model` содержит папку с обученными моделями `pretrained_models` и ноутбук с первым обучением моделей
