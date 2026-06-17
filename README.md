@@ -13,6 +13,7 @@
 │   ├── data_labeling.ipynb
 │   ├── llm_tools.py
 │   └── regex_for_labeling.py
+│   └── prepare_dataset.ipynb
 ├── model/
 │   ├── pretrained_models/
 │   │   ├── rubert_harassment_model/
@@ -31,11 +32,10 @@
 └── project_overview.md
 ```
 
-Папка `data` содержит ноутбук с предразметкой сообщений и аугментацию. В файлы `.ру` вынесена часть кода с функциями для разметки\аугментации\фильтрации \
+Папка `data` содержит ноутбук с предразметкой сообщений и окончательными преобразованиями датасета. В файлы `.ру` вынесена часть кода с функциями для разметки\аугментации\фильтрации \
 Папка `model` содержит папку с обученными моделями `pretrained_models` и ноутбук с первым обучением моделей \
 Папка `server` содержит необходимый код для запуска сервиса \
 Ноутбук `metrics_test.ipynb` содержит тесты для проверки latency при запущенном локально сервере \
- 
 
 ## Запуск и использование
 
@@ -46,7 +46,7 @@ docker compose up -d
 ### Проверка сервиса
 
 ```bash
-curl http://localhost:8000/health
+curl http://localhost:8080/health
 ```
 Должен вернуться ответ:
 ```bash
@@ -59,7 +59,7 @@ curl http://localhost:8000/health
 
 ### Примеры использования 
 ```bash
-curl -X POST http://localhost:8000/predict -H "Content-Type: application/json" -d '{"text": "Привет!"}'
+curl -X POST http://localhost:8080/predict -H "Content-Type: application/json" -d '{"text": "Привет!"}'
 ```
 
 Возвращает json вида ```{'label' : ...}``` c одним из классов.
