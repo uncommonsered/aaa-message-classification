@@ -15,8 +15,8 @@
 │   └── regex_for_labeling.py
 ├── model/
 │   ├── pretrained_models/
-│   │   ├── bert_tiny_ens/
-│   │   └── logreg_pipeline.pkl
+│   │   ├── rubert_harassment_model/
+│   │   └── model.joblib
 │   └── train_model.ipynb
 ├── server/
 │   ├── main.py
