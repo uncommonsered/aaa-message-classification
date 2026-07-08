@@ -6,4 +6,4 @@ services:
     container_name: bert_fastapi
     restart: unless-stopped
     ports:
-      - "8000:8000"
+      - "8080:8080"
